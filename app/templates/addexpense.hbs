@@ -1,0 +1,42 @@
+<fieldset>
+                <legend>Add Expense</legend>
+
+                <form>
+                    <div class="form-group">
+                        <label>Description</label>
+                        {{input type="text" placeholder="Description" value=description class="form-control" action="addExpense"}}
+                    </div>
+                    <div class="form-group">
+                        <label>Amount</label>
+                        {{input type="text" placeholder="Amount" value=amount class="form-control" action="addExpense"}}
+                    </div>
+                    <div class="form-group">
+                        <label>Who Paid?</label>
+                        {{view Ember.Select
+                                            content=users
+                                            class="form-control"
+                                            value=selectedValue
+                                            selectionBinding="controller.spendingUser"
+                                            optionValuePath="content.id"
+                                            optionLabelPath="content.name"
+                                            prompt="select"
+                                            }}
+                    </div>
+                    <div class="form-group">
+                        <label>For Whom?</label>
+                        {{view Ember.Select
+                                            multiple=true
+                                            class="form-control"
+                                            selectionBinding="controller.affectedUsers"
+                                            content=users
+                                            optionValuePath="content.id"
+                                            optionLabelPath="content.name"
+                                            action = "addExpense"}}
+                    </div>
+
+                    <button type="submit" class="btn btn-default" {{action 'addExpense'}}>
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 
+                        Add
+                    </button>
+                </form>
+            </fieldset>

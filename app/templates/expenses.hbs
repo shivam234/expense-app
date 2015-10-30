@@ -1,0 +1,127 @@
+<div class="row">
+                
+                <div class="col-md-12">
+                    
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Who Paid?</th>
+                                <th>For Whom?</th>
+                                <th>When?</th>
+                                <th>
+                                    {{#link-to 'addexpense'}}
+                                        <button class="btn btn-default">
+                                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 
+                                        </button>
+                                    {{/link-to}}
+                                    
+                                    <button {{action "exportExpenses" model}}>Export</button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each expense in model}}
+                                <tr>
+                                    <td>{{expense.description}}</td>
+                                    <td>{{expense.amount}}</td>
+                                    <td>
+                                        {{#link-to 'users.summary' expense.spendingUser.id}}
+                                            {{expense.spendingUser.name}}
+                                        {{/link-to}}
+                                    </td>
+                                    <td>
+                                        {{#each affectedUser in expense.affectedUsers}}
+                                            {{#link-to 'users.summary' affectedUser.id}}
+                                                {{affectedUser.name}}
+                                            {{/link-to}}
+                                        {{/each}}
+                                    </td>
+                                    <td>{{format-date expense.createdAt}}</td>
+                                    <td>
+                                        
+                                        
+                                        <button class="btn btn-default" {{action "remove" expense}}>
+                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    {{#if model.length}}
+                        {{#if payables.length}}
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="4" class="info">
+                                            Settlements for all expenses made. 
+                                            To settle, click 
+                                            {{#link-to 'settlements'}}
+                                                <button class="btn btn-default">
+                                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                                                </button>
+                                            {{/link-to}}
+                                            
+                                            <button {{action "exportSettlements" payables}}>Export</button>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Who?</th>
+                                        <th>To pay</th>
+                                        <th>To Whom?</th>
+                                        <th>
+                                            
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                 {{#each payable in payables}}
+                                    <tr>
+                                        <td>
+                                            {{payable.by}}  
+                                        </td>    
+                                        <td>    
+                                            {{payable.amt}} 
+                                        </td>
+                                        <td>
+                                           {{payable.to}}
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                {{/each}}
+                                </tbody>
+                            </table>
+
+                            {{else}}
+
+                                <div class="alert alert-success" role="alert">
+                                        All expenses are settled;
+                                        {{#link-to 'addexpense'}}
+                                            <button class="btn btn-default">
+                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 
+                                            </button>
+                                        {{/link-to}} 
+                                        to create a new expense
+                                </div>
+
+                        {{/if}}
+                        
+                        {{else}}
+                            <div class="alert alert-warning" role="alert">
+                                    No Expense;
+                                    {{#link-to 'addexpense'}}
+                                        <button class="btn btn-default">
+                                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 
+                                        </button>
+                                    {{/link-to}} 
+                                    To Create 
+                            </div>
+                    
+                    {{/if}}
+                    
+                    {{outlet}}
+                </div>
+            </div>
+            

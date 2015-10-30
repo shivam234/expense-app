@@ -1,0 +1,43 @@
+<div class="row">
+                <div class="col-md-12">
+                    {{#if payables.length}}
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th colspan="4" class="info">
+                                        Settlements for all expenses made
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Who?</th>
+                                    <th>To pay</th>
+                                    <th>To Whom?</th>
+                                    <th>Settled</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each payable in payables}}
+                                    <tr>
+                                        <td>
+                                            {{payable.by}}  
+                                        </td>    
+                                        <td>    
+                                            {{payable.amt}} 
+                                        </td>
+                                        <td>
+                                           {{payable.to}}
+                                        </td>
+                                        <td>
+                                            {{input type="checkbox" checked=payable.settled}}
+                                        </td>
+                                    </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                        <button class="btn btn-default" {{action 'save' payables}}>
+                            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                            Save
+                        </button>
+                    {{/if}}
+                </div>
+            </div>
